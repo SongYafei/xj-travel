@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>深圳↔乌鲁木齐 · 交通方案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#0f0f1a;color:#e0e0e8;padding:16px;min-height:100vh}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,rgba(102,126,234,0.25) 0%,rgba(118,75,162,0.25) 100%);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(102,126,234,0.08) 0%,transparent 50%);pointer-events:none}
+.header h1{font-size:22px;font-weight:700;color:#fff;position:relative}
+.header p{font-size:14px;color:rgba(255,255,255,0.7);margin-top:6px;position:relative}
+.header .meta{font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;position:relative}
+.tab-bar{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:8px 18px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);font-size:13px;font-weight:500;cursor:pointer;transition:all .3s ease;-webkit-tap-highlight-color:transparent;user-select:none}
+.tab-btn.active{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-color:transparent;color:#fff;box-shadow:0 4px 15px rgba(102,126,234,0.3)}
+.tab-btn:active{transform:scale(0.96)}
+.section{display:none;animation:fadeUp .4s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card{background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,rgba(255,255,255,0.02) 100%);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;margin-bottom:14px;transition:all .3s ease;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(102,126,234,0.3),transparent);opacity:0;transition:opacity .3s}
+.card.highlight{border-color:rgba(102,126,234,0.4);background:linear-gradient(135deg,rgba(102,126,234,0.12) 0%,rgba(118,75,162,0.08) 100%)}
+.card.highlight::before{opacity:1}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.card-title{font-size:16px;font-weight:600;color:#fff;line-height:1.4}
+.card-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px}
+.price-box{text-align:right;flex-shrink:0}
+.price{font-size:22px;font-weight:700;color:#ff6b6b}
+.price .per{font-size:12px;font-weight:400;color:rgba(255,255,255,0.4)}
+.price-total{font-size:12px;color:rgba(255,255,255,0.35);margin-top:2px}
+.route-step{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px}
+.route-step .emoji{font-size:18px;flex-shrink:0}
+.route-step .info{flex:1}
+.route-step .info .flight{font-size:12px;color:rgba(255,255,255,0.4);display:block}
+.route-step .time{font-weight:600;color:#a0a8e8;white-space:nowrap}
+.route-line{width:2px;height:16px;background:rgba(255,255,255,0.1);margin-left:13px}
+.tag{display:inline-block;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:500;margin-right:4px}
+.tag-green{background:rgba(46,204,113,0.15);color:#2ecc71}
+.tag-blue{background:rgba(52,152,219,0.15);color:#3498db}
+.tag-orange{background:rgba(230,126,34,0.15);color:#e67e22}
+.tag-red{background:rgba(231,76,60,0.15);color:#e74c3c}
+.tag-purple{background:rgba(155,89,182,0.15);color:#9b59b6}
+.stamp{display:inline-block;background:linear-gradient(135deg,#ff6b6b 0%,#ee5a24 100%);color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;vertical-align:middle}
+.detail-toggle{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:rgba(255,255,255,0.4);cursor:pointer;margin-top:8px;transition:color .2s;-webkit-tap-highlight-color:transparent;user-select:none}
+.detail-toggle:active{color:rgba(255,255,255,0.7)}
+.detail-toggle .arrow{transition:transform .3s ease;display:inline-block}
+.detail-toggle.open .arrow{transform:rotate(180deg)}
+.detail-content{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease,margin .3s ease;opacity:0;margin-top:0}
+.detail-content.open{max-height:500px;opacity:1;margin-top:10px}
+.detail-content .note{background:rgba(255,255,255,0.04);border-radius:10px;padding:12px 14px;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6}
+.detail-content .note strong{color:rgba(255,255,255,0.8)}
+.check{color:#2ecc71}
+.warn{color:#e67e22}
+.btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 18px;border-radius:10px;border:1px solid rgba(102,126,234,0.4);background:rgba(102,126,234,0.1);color:#8b9aff;text-decoration:none;font-size:13px;font-weight:500;transition:all .3s;-webkit-tap-highlight-color:transparent}
+.btn:active{background:rgba(102,126,234,0.25);transform:scale(0.97)}
+.compare-table{margin-top:4px}
+.compare-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.06);transition:background .2s}
+.compare-row:first-child{border-top:1px solid rgba(255,255,255,0.06)}
+.compare-row:active{background:rgba(255,255,255,0.04)}
+.compare-row .name{font-size:14px;font-weight:500}
+.compare-row .name .sub{font-size:12px;font-weight:400;color:rgba(255,255,255,0.4);display:block;margin-top:2px}
+.compare-row .total-price{font-size:16px;font-weight:700;color:#ff6b6b;white-space:nowrap}
+.compare-row.highlight-row{background:rgba(102,126,234,0.08);border-radius:10px;border:1px solid rgba(102,126,234,0.2);margin:4px 0;padding:12px 14px}
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tip-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px}
+.tip-card .icon{font-size:20px;margin-bottom:6px;display:block}
+.tip-card .title{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+.tip-card .desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5}
+.footer{text-align:center;padding:24px 0 16px;color:rgba(255,255,255,0.2);font-size:12px}
+.price-bar{display:flex;align-items:center;gap:8px;margin-top:4px}
+.price-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.price-bar-fill{height:100%;border-radius:2px;transition:width .6s ease}
+.alert-banner{margin-bottom:14px;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.alert-green{background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.2);color:#2ecc71}
+.alert-blue{background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.2);color:#3498db}
+.sub-options{margin-top:12px;padding:12px;background:rgba(52,152,219,0.08);border:1px solid rgba(52,152,219,0.15);border-radius:10px;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8}
+.sub-options strong{color:#fff}
+.sub-opt{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+.sub-opt .s-price{color:#2ecc71;font-weight:600}
+.note-sm{font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px}
+@media(max-width:480px){
+body{padding:10px}
+.header{padding:20px 16px}
+.header h1{font-size:18px}
+.card{padding:16px}
+.card-top{flex-direction:column}
+.price-box{text-align:left}
+.compare-row{flex-direction:column;align-items:flex-start;gap:6px}
+.compare-row .total-price{align-self:flex-end}
+.tips-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+  <h1>🏔️ 深圳 ↔ 乌鲁木齐</h1>
+  <p>一家三口 · 6/13（周六）→ 6/21（周日）</p>
+  <div class="meta">飞猪实时数据 · 2026-05-21</div>
+</div>
+
+<div class="tab-bar">
+  <div class="tab-btn active" onclick="switchTab('depart')">✈️ 去程</div>
+  <div class="tab-btn" onclick="switchTab('return')">🛬 返程</div>
+  <div class="tab-btn" onclick="switchTab('compare')">📊 总对比</div>
+  <div class="tab-btn" onclick="switchTab('tips')">💡 贴士</div>
+</div>
+
+<!-- ====== 去程 ====== -->
+<div id="depart" class="section active">
+
+<div class="card highlight" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">周五晚飞重庆中转 → 周六中午到 <span class="stamp">🏆</span></div>
+      <div class="card-sub">不用请假 · 当晚就到</div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥1,690 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥5,070</div>
+      <div class="price-bar">
+        <span style="font-size:11px;color:rgba(255,255,255,0.3)">比直达省</span>
+        <div class="price-bar-track"><div class="price-bar-fill" style="width:20%;background:linear-gradient(90deg,#2ecc71,#27ae60)"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">深圳 23:40 <span class="flight">西部航空 PN6230</span></span><span class="time">01:50</span></div>
+  <div class="route-line"></div>
+  <div class="route-step" style="opacity:.6"><span class="emoji">⏸</span><span class="info">重庆 中转等约5h</span></div>
+  <div class="route-line"></div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">重庆 06:00 <span class="flight">西部航空 PN6497 · 经停中卫</span></span><span class="time">11:50</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 详情与提示</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> <strong>周五晚下班直接去机场</strong>，23:40飞重庆<br>
+      <span class="check">✅</span> 周六中午就到乌鲁木齐，0天浪费<br>
+      <span class="warn">⚠</span> 凌晨在重庆机场等约5h，建议订钟点房<br>
+      <span class="warn">⚠</span> 经停中卫约50min | 非联程需重新办登机牌
+    </div>
+    <a class="btn" href="https://a.feizhu.com/37xEIW" target="_blank">🔗 飞猪查看详情</a>
+  </div>
+</div>
+
+<div class="card" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">海航早班直达（最快）</div>
+      <div class="card-sub">5h40min · 最省心</div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥3,110 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥9,330</div>
+      <div class="price-bar">
+        <span style="font-size:11px;color:rgba(255,255,255,0.3)">价格</span>
+        <div class="price-bar-track"><div class="price-bar-fill" style="width:80%;background:linear-gradient(90deg,#e74c3c,#c0392b)"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">深圳 06:50 <span class="flight">海航 HU7851（直达）</span></span><span class="time">12:30</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 详情与提示</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> 5h40min直达，中午到乌市下午就能逛<br>
+      <span class="warn">⚠</span> 需早起赶6:50飞 | 比中转每人贵¥1,420
+    </div>
+    <a class="btn" href="https://a.feizhu.com/4DEWMG" target="_blank">🔗 飞猪查看详情</a>
+  </div>
+</div>
+
+<div class="card" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">深航上午直达</div>
+      <div class="card-sub">正常时间 · 不用赶早</div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥3,270 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥9,810</div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">深圳 10:45 <span class="flight">深航 ZH9241（直达）</span></span><span class="time">16:30</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 详情与提示</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> 10:45出发，正常时间<br>
+      <span class="warn">⚠</span> 5h45min直达 | 下午4:30到乌市
+    </div>
+    <a class="btn" href="https://a.feizhu.com/0aHE6e" target="_blank">🔗 飞猪查看详情</a>
+  </div>
+</div>
+</div>
+
+<!-- ====== 返程 ====== -->
+<div id="return" class="section">
+
+<div class="alert-green alert-banner">✅ 以下方案均周日傍晚或夜间出发，不影响周一上班</div>
+
+<div class="card highlight" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">海航直达 · 当晚到深圳 <span class="stamp">🏆</span></div>
+      <div class="card-sub">白天玩到傍晚再走</div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥3,000 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥9,000</div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">乌鲁木齐 18:55 <span class="flight">海航 HU7852（直达）</span></span><span class="time">00:05</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 详情与提示</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> 返程最便宜的直达 · 仅¥3,000/人<br>
+      <span class="check">✅</span> 白天还能玩到傍晚 · 凌晨到家不耽误上班<br>
+      <span class="warn">⚠</span> 凌晨0:05到深圳，回家直接睡
+    </div>
+    <a class="btn" href="https://a.feizhu.com/38X5Jr" target="_blank">🔗 飞猪查看详情</a>
+  </div>
+</div>
+
+<div class="card highlight" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">西安中转 · 周一中午到 <span class="stamp">🏆 最省钱</span></div>
+      <div class="card-sub"><span class="tag tag-green">¥1,070/人</span> 比直达省¥1,930/人</div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥1,070 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥3,210</div>
+      <div class="price-bar">
+        <span style="font-size:11px;color:rgba(255,255,255,0.3)">比直达省</span>
+        <div class="price-bar-track"><div class="price-bar-fill" style="width:10%;background:linear-gradient(90deg,#2ecc71,#27ae60)"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">乌鲁木齐 19:55 <span class="flight">东航 MU2300</span></span><span class="time">22:55</span></div>
+  <div class="route-line"></div>
+  <div class="route-step" style="opacity:.6"><span class="emoji">🌙</span><span class="info">西安 过夜 · 次日早班飞深圳</span></div>
+  <div class="route-line"></div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">西安 07:20 <span class="flight">奥凯 BK2763</span></span><span class="time">11:35</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 更多西安中转选择</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> <strong>¥1,070/人</strong>，三人省¥5,790！<br>
+      <span class="check">✅</span> 周日晚逛西安夜市，睡一觉周一中午到<br>
+      <span class="warn">⚠</span> 需在西安住一晚（机场附近酒店约¥150-300）
+    </div>
+    <div class="sub-options">
+      <strong>🔄 其他西安中转选择：</strong><br>
+      <div class="sub-opt"><span>东航19:55→22:55 + <strong>奥凯</strong> 次日07:20→11:35</span><span class="s-price">¥1,070</span></div>
+      <div class="sub-opt"><span>东航19:55→22:55 + 南航 次日20:45→23:45</span><span class="s-price">¥1,070</span></div>
+      <div class="sub-opt"><span>奥凯22:30→01:45 + 深航 次日22:10→01:05</span><span class="s-price">¥1,120</span></div>
+      <div class="note-sm">推荐第一条 · 11:35到深下午还能休整</div>
+    </div>
+    <a class="btn" href="https://a.feizhu.com/1XlXK8" target="_blank">🔗 飞猪查看西安中转</a>
+  </div>
+</div>
+
+<div class="card" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">重庆中转 · 周一早9:20到</div>
+      <div class="card-sub"><span class="tag tag-orange">¥1,270/人</span></div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥1,270 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥3,810</div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">乌鲁木齐 21:00 <span class="flight">南航 CZ2312</span></span><span class="time">01:00</span></div>
+  <div class="route-line"></div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">重庆 07:10 <span class="flight">国航 CA4343</span></span><span class="time">09:20</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 详情与提示</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> 周一9:20到深圳，直接上班<br>
+      <span class="warn">⚠</span> 凌晨1点到重庆，机场等约6h
+    </div>
+    <a class="btn" href="https://a.feizhu.com/01NtCt" target="_blank">🔗 飞猪查看重庆中转</a>
+  </div>
+</div>
+
+<div class="card" onclick="toggleDetail(this)">
+  <div class="card-top">
+    <div>
+      <div class="card-title">济南中转 · 周一早9:35到</div>
+      <div class="card-sub"><span class="tag tag-purple">¥1,500/人</span></div>
+    </div>
+    <div class="price-box">
+      <div class="price">¥1,500 <span class="per">/人</span></div>
+      <div class="price-total">3人 ≈ ¥4,500</div>
+    </div>
+  </div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">乌鲁木齐 19:00 <span class="flight">山航 SC8708 经停银川</span></span><span class="time">00:35</span></div>
+  <div class="route-line"></div>
+  <div class="route-step"><span class="emoji">🛩</span><span class="info">济南 06:40 <span class="flight">山航 SC1179</span></span><span class="time">09:35</span></div>
+  <div class="detail-toggle"><span class="arrow">▾</span> 详情</div>
+  <div class="detail-content">
+    <div class="note">
+      <span class="check">✅</span> 周一9:35到深圳<br>
+      <span class="warn">⚠</span> 经停银川，飞行时间长 | 凌晨到济南转早班
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== 总对比 ====== -->
+<div id="compare" class="section">
+<div class="compare-table">
+  <div class="compare-row highlight-row">
+    <div class="name">🏆 最佳组合<span class="sub"><span class="tag tag-green">去程重庆中转</span><span class="tag tag-blue">回程海航直达</span></span></div>
+    <div class="total-price">≈¥14,070</div>
+  </div>
+  <div class="compare-row highlight-row">
+    <div class="name">🥇 最省钱组合<span class="sub"><span class="tag tag-green">去程重庆中转</span><span class="tag tag-orange">回程西安中转</span></span></div>
+    <div class="total-price" style="color:#2ecc71">≈¥8,280</div>
+  </div>
+  <div class="compare-row">
+    <div class="name">🥈 性价比之选<span class="sub"><span class="tag tag-green">去程重庆中转</span><span class="tag tag-purple">回程重庆中转</span></span></div>
+    <div class="total-price" style="color:#3498db">≈¥8,880</div>
+  </div>
+  <div class="compare-row">
+    <div class="name">🥉 最快直达<span class="sub"><span class="tag tag-red">海航直达</span><span class="tag tag-red">海航直达</span></span></div>
+    <div class="total-price">≈¥18,330</div>
+  </div>
+</div>
+</div>
+
+<!-- ====== 贴士 ====== -->
+<div id="tips" class="section">
+<div class="tips-grid">
+  <div class="tip-card"><span class="icon">📅</span><div class="title">距出发23天</div><div class="desc">建议尽早订票，越临近越贵</div></div>
+  <div class="tip-card"><span class="icon">🧒</span><div class="title">6岁儿童票</div><div class="desc">高铁半价 · 飞机约成人50-75%</div></div>
+  <div class="tip-card"><span class="icon">🛄</span><div class="title">联程/非联程</div><div class="desc">联程行李直挂最省心，非联程需重新托运</div></div>
+  <div class="tip-card"><span class="icon">📱</span><div class="title">比价平台</div><div class="desc">飞猪/携程/去哪儿，同航班可能差几百</div></div>
+  <div class="tip-card"><span class="icon">🏨</span><div class="title">中转住宿</div><div class="desc">重庆/西安转机可选机场附近钟点房或快捷酒店</div></div>
+  <div class="tip-card"><span class="icon">💰</span><div class="title">总预算</div><div class="desc">最省方案往返≈¥8,280，含中转住宿约¥9,000</div></div>
+</div>
+</div>
+
+<div class="footer">数据来源：飞猪实时查询 · 价格随时间浮动 · 请以实际下单为准</div>
+</div>
+
+<script>
+function toggleDetail(el) {
+  const detail = el.querySelector('.detail-content');
+  const toggle = el.querySelector('.detail-toggle');
+  if (!detail || !toggle) return;
+  const isOpen = detail.classList.contains('open');
+  if (isOpen) {
+    detail.classList.remove('open');
+    toggle.classList.remove('open');
+  } else {
+    detail.classList.add('open');
+    toggle.classList.add('open');
+  }
+}
+function switchTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`.tab-btn[onclick*="'${id}'"]`).classList.add('active');
+}
+</script>
+</body>
+</html>
