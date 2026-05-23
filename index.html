@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>恒科纳入 MiniMax &amp; 智谱 · 深度分析</title>
+<title>新疆亲子游 · 深圳↔乌鲁木齐 交通+小团方案</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f5f7fa;color:#1a1a2e;padding:16px}
 .container{max-width:860px;margin:0 auto}
 
+/* Header */
 .header{
   background:linear-gradient(135deg,#1a1a4e 0%,#2d1b69 50%,#764ba2 100%);
   border-radius:20px;padding:32px 28px;color:#fff;margin-bottom:20px;
@@ -19,10 +20,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",
   background:radial-gradient(circle,rgba(102,126,234,0.15) 0%,transparent 70%);
   border-radius:50%;pointer-events:none
 }
-.header h1{font-size:24px;font-weight:700;position:relative;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.header h1{font-size:26px;font-weight:700;position:relative;display:flex;align-items:center;gap:10px}
+.header h1 span{background:rgba(255,255,255,0.15);font-size:13px;padding:3px 12px;border-radius:20px;font-weight:500}
 .header p{font-size:14px;color:rgba(255,255,255,0.75);margin-top:8px;position:relative;line-height:1.5}
 .header .meta{font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;position:relative}
 
+/* Tab bar */
 .tab-bar{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{
@@ -34,35 +37,53 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",
   background:linear-gradient(135deg,#667eea,#764ba2);border-color:transparent;color:#fff;
   box-shadow:0 4px 20px rgba(102,126,234,0.3)
 }
+.tab-btn:active{transform:scale(0.96)}
 
+/* Sections */
 .section{display:none;animation:fadeUp .4s ease}
 .section.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
+/* Card */
 .card{
   background:#fff;border:1px solid #e8ecf1;border-radius:14px;padding:20px;
   margin-bottom:14px;transition:all .2s
 }
+.card:hover{border-color:#667eea;box-shadow:0 4px 20px rgba(102,126,234,0.08)}
 .card.highlight{border-color:#667eea;background:linear-gradient(135deg,#f8f9ff 0%,#f0f2ff 100%)}
-.card.risk{border-color:#ff6b6b;background:linear-gradient(135deg,#fff5f5 0%,#fff0f0 100%)}
-.card.buy{border-color:#51cf66;background:linear-gradient(135deg,#f0fff4 0%,#ebfbee 100%)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.card-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.card-title .badge{display:inline-block;font-size:11px;padding:2px 10px;border-radius:20px;font-weight:600;margin-left:6px;vertical-align:middle}
+.badge-green{background:#e8f5e9;color:#2e7d32}
+.badge-blue{background:#e3f2fd;color:#1565c0}
+.badge-orange{background:#fff3e0;color:#e65100}
+.badge-purple{background:#f3e5f5;color:#7b1fa2}
+.card-price{font-size:22px;font-weight:700;color:#e53935;white-space:nowrap}
+.card-price .per{font-size:12px;font-weight:400;color:#999}
+.card-total{font-size:13px;color:#999;margin-top:2px;text-align:right}
 
-.card-title{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card-sub{font-size:13px;color:#888;margin-bottom:6px}
+/* Route line */
+.route{display:flex;align-items:center;gap:8px;font-size:14px;margin:6px 0;flex-wrap:wrap}
+.route .icon{font-size:16px}
+.route .label{background:#f0f2f5;padding:2px 10px;border-radius:4px;font-size:12px;color:#666}
+.route .arrow{color:#bbb}
 
+/* Tags */
 .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
-.tag-green{background:#e8f5e9;color:#2e7d32}
-.tag-red{background:#ffebee;color:#c62828}
-.tag-blue{background:#e3f2fd;color:#1565c0}
-.tag-orange{background:#fff3e0;color:#e65100}
-.tag-purple{background:#f3e5f5;color:#7b1fa2}
+.tag-check{background:#e8f5e9;color:#2e7d32}
+.tag-no{background:#ffebee;color:#c62828}
+.tag-guarantee{background:#e3f2fd;color:#1565c0}
+.tag-hot{background:#fff3e0;color:#e65100}
+.tag-star{background:#fff8e1;color:#f57f17}
 
-table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:14px}
 th{background:#f8f9fa;text-align:left;padding:10px 12px;font-weight:600;color:#666;font-size:13px}
 td{padding:10px 12px;border-top:1px solid #eef1f5}
 tr:first-child td{border-top:none}
 .table-price{font-weight:600;color:#e53935;white-space:nowrap}
 
+/* Summary box */
 .summary-box{
   background:#f8f9ff;border-left:4px solid #667eea;border-radius:10px;padding:18px;margin-top:16px
 }
@@ -71,13 +92,28 @@ tr:first-child td{border-top:none}
 .summary-box li{padding:5px 0;font-size:14px;display:flex;align-items:baseline;gap:8px;color:#444}
 .summary-box li::before{content:"✓";color:#667eea;font-weight:700}
 
+/* Note */
 .note{font-size:13px;color:#888;padding:10px 14px;background:#fafafa;border-radius:8px;margin-top:8px;line-height:1.5}
 .note strong{color:#555}
 
-.tip-box{
-  background:#fff8e1;border-left:4px solid #ffa000;border-radius:8px;padding:14px;margin:10px 0;font-size:13px;color:#6d5300;line-height:1.6
+/* Button */
+.btn-link{
+  display:inline-block;margin-top:10px;padding:8px 20px;
+  background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;
+  border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;
+  transition:all .2s
+}
+.btn-link:hover{opacity:0.9;transform:translateY(-1px);box-shadow:0 4px 15px rgba(102,126,234,0.3)}
+
+/* Recommend stamp */
+.recommend-stamp{
+  display:inline-block;
+  background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;
+  padding:3px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  margin-left:8px;vertical-align:middle
 }
 
+/* Info row */
 .info-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
 .info-item{
   flex:1;min-width:120px;background:#f8f9ff;border-radius:10px;padding:14px;text-align:center;
@@ -85,225 +121,384 @@ tr:first-child td{border-top:none}
 }
 .info-item .num{font-size:22px;font-weight:700;color:#667eea}
 .info-item .lbl{font-size:12px;color:#888;margin-top:4px}
-.info-item .sub{font-size:11px;color:#aaa;margin-top:2px}
 
-.divider{height:1px;background:#eef1f5;margin:20px 0}
+/* Timeline */
+.timeline{position:relative;padding-left:24px;margin:12px 0}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:#e0e4f0}
+.timeline-item{position:relative;padding:6px 0 6px 16px;font-size:14px}
+.timeline-item::before{content:'';position:absolute;left:-18px;top:12px;width:10px;height:10px;border-radius:50%;background:#667eea;border:2px solid #fff;box-shadow:0 0 0 2px #667eea}
+.timeline-item .t-date{font-weight:600;color:#667eea;font-size:13px}
+.timeline-item .t-desc{color:#555}
 
-.footnote{text-align:center;padding:20px;color:#999;font-size:12px}
+.divider{height:1px;background:#eef1f5;margin:16px 0}
+
+.tip-box{
+  background:#fff8e1;border-left:4px solid #ffa000;border-radius:8px;padding:14px;margin:10px 0;font-size:13px;color:#6d5300;line-height:1.6
+}
 
 @media (max-width:600px){
   body{padding:12px}
   .header{padding:20px}
   .header h1{font-size:20px}
+  .card-top{flex-direction:column;gap:6px}
   .tab-btn{padding:8px 14px;font-size:13px}
+  .info-item{min-width:80px;padding:10px}
 }
 </style>
 </head>
 <body>
 <div class="container">
 
+<!-- Header -->
 <div class="header">
-  <h1>🏦 恒生科技指数 · 纳入分析</h1>
-  <p>MiniMax（00100.HK）&amp; 智谱（Knowledge Atlas）将于 <strong>2026年6月8日</strong> 正式纳入恒生科技指数，替换金蝶国际和金山软件</p>
-  <div class="meta">数据来源：摩根士丹利、LiveReport、追风交易台 · 2026-05-23</div>
+  <h1>🏔️ 新疆亲子游·全攻略 <span>6月出发</span></h1>
+  <p>👨‍👩‍👦 一家三口（含6岁娃）· 深圳↔乌鲁木齐 · 6月13日（周六）→ 6月21日（周日）· 北疆伊犁环线</p>
+  <div class="meta">✈️ 交通 + 🚐 精致小团 一站式方案 · 数据来源：飞猪实时查询 · 2026-05-21</div>
 </div>
 
+<!-- Tab Bar -->
 <div class="tab-bar">
-  <div class="tab-btn active" onclick="switchTab('tab-overview')">📋 事件概览</div>
-  <div class="tab-btn" onclick="switchTab('tab-flow')">💰 资金测算</div>
-  <div class="tab-btn" onclick="switchTab('tab-risk')">⚠️ 解禁风险</div>
-  <div class="tab-btn" onclick="switchTab('tab-impact')">📊 持仓影响</div>
+  <div class="tab-btn active" onclick="switchTab('tab-transport')">🚌 交通方案</div>
+  <div class="tab-btn" onclick="switchTab('tab-tour')">🚐 精致小团</div>
+  <div class="tab-btn" onclick="switchTab('tab-itinerary')">🗺️ 行程总览</div>
+  <div class="tab-btn" onclick="switchTab('tab-summary')">💰 预算汇总</div>
 </div>
 
-<div id="tab-overview" class="section active">
+<!-- ============ TAB 1: 交通 ============ -->
+<div id="tab-transport" class="section active">
+
+  <!-- Info bar -->
   <div class="info-row">
-    <div class="info-item"><div class="num">6月8日</div><div class="lbl">恒科生效日</div></div>
-    <div class="info-item"><div class="num">5-7%</div><div class="lbl">合计权重</div></div>
-    <div class="info-item"><div class="num">$250亿</div><div class="lbl">跟踪ETF规模</div></div>
-    <div class="info-item"><div class="num">2只</div><div class="lbl">调出股票</div></div>
+    <div class="info-item"><div class="num">6.13</div><div class="lbl">去程·周六</div></div>
+    <div class="info-item"><div class="num">6.21</div><div class="lbl">返程·周日</div></div>
+    <div class="info-item"><div class="num">9天</div><div class="lbl">行程时间</div></div>
+    <div class="info-item"><div class="num">3人</div><div class="lbl">一家三口</div></div>
   </div>
 
+  <!-- === 去程 === -->
+  <div class="section" style="display:block;animation:none;">
+  <div style="font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+    <span>✈️ 去程 · 深圳→乌鲁木齐</span>
+    <span class="tag tag-check">6月13日（周六）</span>
+  </div>
+
+  <!-- 方案1 -->
   <div class="card highlight">
-    <div class="card-title">📋 纳入方案</div>
-    <table>
-      <tr><th>操作</th><th>公司</th><th>说明</th></tr>
-      <tr><td><span class="tag tag-green">✅ 纳入</span></td><td><strong>MiniMax-W</strong>（00100.HK）</td><td>全球首家全模态AGI港股上市公司</td></tr>
-      <tr><td><span class="tag tag-green">✅ 纳入</span></td><td><strong>智谱</strong>（Knowledge Atlas）</td><td>中国大模型头部公司</td></tr>
-      <tr><td><span class="tag tag-red">❌ 调出</span></td><td>金蝶国际</td><td>权重最低被替换</td></tr>
-      <tr><td><span class="tag tag-red">❌ 调出</span></td><td>金山软件</td><td>权重最低被替换</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🏆 为什么重要</div>
-    <div class="note">
-      <strong>恒生科技指数今年表现：</strong>年初至今 -12.6%。<br>
-      但如果智谱和MiniMax上市当天就纳入（替换金蝶/金山），指数跌幅将从 <strong>-12.6% 收窄至 -7.6%</strong>，提升约 <strong>5个百分点</strong>。<br><br>
-      <strong>指数结构变化：</strong>目前恒科 >50% 权重是电商（25.4%）+ 汽车（25.1%），实际更像"消费指数"。纳入AI公司后，科技属性更纯粹。
+    <div class="card-top">
+      <div>
+        <div class="card-title">方案一：周五晚飞重庆中转 → 周六中午到<span class="recommend-stamp">🏆 最推荐</span></div>
+        <div class="route"><span class="icon">🛩</span> 深圳 23:40 <span class="arrow">→</span> <span class="label">西部航空 PN6230</span> <span class="arrow">→</span> 重庆 01:50</div>
+        <div class="route"><span class="icon">🛩</span> 重庆 06:00 <span class="arrow">→</span> <span class="label">西部航空 PN6497</span> <span class="arrow">→</span> ⏸ 中卫经停 <span class="arrow">→</span> 乌鲁木齐 <strong>11:50</strong></div>
+      </div>
+      <div style="text-align:right">
+        <div class="card-price">¥1,690 <span class="per">/人</span></div>
+        <div class="card-total">3人 ≈ ¥5,070</div>
+      </div>
     </div>
-    <table style="margin-top:12px">
-      <tr><th>板块</th><th>当前权重</th><th>代表性公司</th></tr>
-      <tr><td>🛒 电商</td><td>25.4%</td><td>阿里、美团、京东、携程</td></tr>
-      <tr><td>🚗 汽车/新能源</td><td>25.1%</td><td>比亚迪、小米、蔚来、小鹏</td></tr>
-      <tr><td>🤖 AI（即将纳入）</td><td>5-7%</td><td>MiniMax、智谱</td></tr>
-    </table>
+    <div class="note">
+      ✅ 周五晚下班直接去机场，凌晨到重庆中转，周六中午11:50到乌市<br>
+      📌 中卫经停约50min · 总飞行约8h（含经停）+ 重庆过夜5h <br>
+      💡 有儿童：2岁以上买儿童票约成人价50-75%，实际可能更少
+    </div>
+    <a class="btn-link" href="https://a.feizhu.com/37xEIW" target="_blank">飞猪查看此方案 →</a>
   </div>
 
+  <!-- 方案2 -->
   <div class="card">
-    <div class="card-title">📅 港股通时间线</div>
-    <table>
-      <tr><th></th><th style="text-align:center">智谱</th><th style="text-align:center">MiniMax</th></tr>
-      <tr><td>纳入恒科</td><td style="text-align:center"><span class="tag tag-green">6月8日</span></td><td style="text-align:center"><span class="tag tag-green">6月8日</span></td></tr>
-      <tr><td>港股通开通</td><td style="text-align:center"><span class="tag tag-green">6月8日同步</span></td><td style="text-align:center"><span class="tag tag-orange">最早8月6日</span></td></tr>
-      <tr><td>延迟原因</td><td style="text-align:center">—</td><td>WVR同股不同权架构需额外条件</td></tr>
-    </table>
+    <div class="card-top">
+      <div>
+        <div class="card-title">方案二：周六早班直达<span class="badge badge-blue">最快</span></div>
+        <div class="route"><span class="icon">🛩</span> 深圳 06:50 <span class="arrow">→</span> <span class="label">海航 HU7851</span> <span class="arrow">→</span> 乌鲁木齐 <strong>12:30</strong> <span class="label" style="background:#e8f5e9;color:#2e7d32">5.5h直达</span></div>
+      </div>
+      <div style="text-align:right">
+        <div class="card-price">¥3,110 <span class="per">/人</span></div>
+        <div class="card-total">3人 ≈ ¥9,330</div>
+      </div>
+    </div>
+    <div class="note">✅ 5h40min直达最简单 · ⚠️ 每人贵¥1,420，但省心很多</div>
+    <a class="btn-link" href="https://a.feizhu.com/4DEWMG" target="_blank">飞猪查看 →</a>
+  </div>
+
+  <!-- 方案3 -->
+  <div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-title">方案三：深航周六上午直达<span class="badge badge-orange">睡个懒觉</span></div>
+        <div class="route"><span class="icon">🛩</span> 深圳 10:45 <span class="arrow">→</span> <span class="label">深航 ZH9241</span> <span class="arrow">→</span> 乌鲁木齐 <strong>16:30</strong> <span class="label" style="background:#e8f5e9;color:#2e7d32">5.75h直达</span></div>
+      </div>
+      <div style="text-align:right">
+        <div class="card-price">¥3,270 <span class="per">/人</span></div>
+        <div class="card-total">3人 ≈ ¥9,810</div>
+      </div>
+    </div>
+    <div class="note">✅ 不用凌晨赶飞机，上午出发下午到 · ⚠️ 贵但最舒适</div>
+    <a class="btn-link" href="https://a.feizhu.com/0aHE6e" target="_blank">飞猪查看 →</a>
+  </div>
+  </div>
+
+  <!-- === 返程 === -->
+  <div style="margin-top:20px;">
+  <div style="font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+    <span>🛩️ 返程 · 乌鲁木齐→深圳</span>
+    <span class="tag tag-blue">6月21日（周日）</span>
+  </div>
+
+  <!-- 返程1 -->
+  <div class="card highlight">
+    <div class="card-top">
+      <div>
+        <div class="card-title">傍晚直达<span class="recommend-stamp">🏆 最推荐</span></div>
+        <div class="route"><span class="icon">🛩</span> 乌鲁木齐 18:55 <span class="arrow">→</span> <span class="label">海航 HU7852</span> <span class="arrow">→</span> 深圳 <strong>00:05</strong></div>
+      </div>
+      <div style="text-align:right">
+        <div class="card-price">¥3,000 <span class="per">/人</span></div>
+        <div class="card-total">3人 ≈ ¥9,000</div>
+      </div>
+    </div>
+    <div class="note">✅ 返程最便宜的直达！白天还能在乌市逛大半天，傍晚飞 · 凌晨到家</div>
+    <a class="btn-link" href="https://a.feizhu.com/38X5Jr" target="_blank">飞猪查看 →</a>
+  </div>
+
+  <!-- 返程2 -->
+  <div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-title">周日下午直达<span class="badge badge-purple">早到家</span></div>
+        <div class="route"><span class="icon">🛩</span> 乌鲁木齐 11:00 <span class="arrow">→</span> <span class="label">南航 CZ6889</span> <span class="arrow">→</span> 深圳 <strong>16:10</strong></div>
+      </div>
+      <div style="text-align:right">
+        <div class="card-price">¥3,800 <span class="per">/人</span></div>
+        <div class="card-total">3人 ≈ ¥11,400</div>
+      </div>
+    </div>
+    <div class="note">✅ 下午4点到家，晚上还能休息整理 · ⚠️ 每人贵¥800</div>
+  </div>
+
+  <!-- 返程3 -->
+  <div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-title">银川中转省钱<span class="badge badge-green">最便宜</span></div>
+        <div class="route"><span class="icon">🛩</span> 乌鲁木齐 19:00 <span class="arrow">→</span> <span class="label">山航 SC8708</span> <span class="arrow">→</span> 银川 21:50</div>
+        <div class="route">🛩 次日银川 → <span class="label">山航 SC9676</span> → 深圳 <strong>周一15:25</strong></div>
+      </div>
+      <div style="text-align:right">
+        <div class="card-price">¥1,450 <span class="per">/人</span></div>
+        <div class="card-total">3人 ≈ ¥4,350（银川过夜）</div>
+      </div>
+    </div>
+    <div class="note">✅ 省一半返程费用 · ⚠️ 银川过夜，周一才到深圳影响上班通勤</div>
+  </div>
+  </div>
+
+  <!-- 往返对比 -->
+  <div style="margin-top:20px;">
+  <div style="font-size:16px;font-weight:700;margin-bottom:12px;">📊 往返组合价比对</div>
+  <table>
+    <tr><th>组合</th><th>去程</th><th>返程</th><th>3人总价</th></tr>
+    <tr style="background:#f8f9ff;"><td><strong>🏆 最佳</strong><br><span class="tag tag-check">重庆中转</span> <span class="tag tag-blue">海航直达</span></td><td class="table-price">¥1,690/人</td><td class="table-price">¥3,000/人</td><td class="table-price"><strong>≈¥14,070</strong></td></tr>
+    <tr><td><strong>最省</strong><br><span class="tag tag-check">重庆中转</span> <span class="tag tag-orange">银川中转</span></td><td class="table-price">¥1,690/人</td><td class="table-price">¥1,450/人</td><td class="table-price"><strong>≈¥9,420</strong></td></tr>
+    <tr><td><strong>最快</strong><br><span class="tag tag-blue">海航直达</span> <span class="tag tag-blue">海航直达</span></td><td class="table-price">¥3,110/人</td><td class="table-price">¥3,000/人</td><td class="table-price"><strong>≈¥18,330</strong></td></tr>
+    <tr><td><strong>舒适</strong><br><span class="tag tag-orange">深航直达</span> <span class="tag tag-blue">海航直达</span></td><td class="table-price">¥3,270/人</td><td class="table-price">¥3,000/人</td><td class="table-price"><strong>≈¥18,810</strong></td></tr>
+  </table>
   </div>
 </div>
 
-<div id="tab-flow" class="section">
+<!-- ============ TAB 2: 精致小团 ============ -->
+<div id="tab-tour" class="section">
+
   <div class="info-row">
-    <div class="info-item"><div class="num">$12.5-17.5亿</div><div class="lbl">被动资金流入</div><div class="sub">ETF跟踪资金</div></div>
-    <div class="info-item"><div class="num">~港币370亿</div><div class="lbl">南向基础情景</div><div class="sub">纳入后180天</div></div>
-    <div class="info-item"><div class="num">~港币880亿</div><div class="lbl">南向乐观情景</div><div class="sub">小流通盘新股</div></div>
+    <div class="info-item"><div class="num">2-6人</div><div class="lbl">精致小团</div></div>
+    <div class="info-item"><div class="num">9天8晚</div><div class="lbl">行程匹配</div></div>
+    <div class="info-item"><div class="num">✅</div><div class="lbl">纯玩无购物</div></div>
+    <div class="info-item"><div class="num">📸</div><div class="lbl">部分含旅拍</div></div>
   </div>
 
-  <div class="card buy">
-    <div class="card-title">💰 被动资金（确定性最高）</div>
+  <!-- 推荐1 -->
+  <div class="card highlight">
+    <div class="card-top">
+      <div>
+        <div class="card-title">
+          李佳琦直播间 · 北疆环线9天8晚
+          <span class="recommend-stamp">🏆 最推荐</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="tag tag-check">无自费</span>
+          <span class="tag tag-check">纯玩</span>
+          <span class="tag tag-guarantee">成团保障</span>
+        </div>
+        <div class="route" style="margin-top:8px">
+          <span>🗺️ 喀纳斯 → 禾木 → 赛里木湖 → 伊犁 → 独库公路</span>
+        </div>
+      </div>
+    </div>
     <div class="note">
-      追踪恒科指数的ETF规模约 <strong>250亿美元</strong>。<br>
-      按5-7%权重：<strong>约$12.5亿-17.5亿美元</strong>被动买入。<br>
-      这是"必须买"的，不是"可能买"。
+      ✅ <strong>时间完美吻合</strong>：13号到乌市14号出发，21号回程<br>
+      ✅ 小团模式，有专职司机，带6岁娃不用操心开车订房<br>
+      ✅ 喀纳斯+伊犁全覆盖，一次玩完北疆精华<br>
+      ✅ 李佳琦直播选品≈品质严选，靠谱度较高
     </div>
+    <a class="btn-link" href="https://a.feizhu.com/3xVYTL" target="_blank">飞猪查看详情 →</a>
   </div>
 
-  <div class="card buy">
-    <div class="card-title">📈 南向资金测算（大摩预测）</div>
-    <table>
-      <tr><th>情景</th><th style="text-align:center">MiniMax</th><th style="text-align:center">智谱</th><th style="text-align:center">合计</th></tr>
-      <tr><td><strong>基础情景</strong>（8-9%自由流通）</td><td style="text-align:center;font-weight:600">港币184亿</td><td style="text-align:center;font-weight:600">港币186亿</td><td style="text-align:center;font-weight:700">~港币370亿</td></tr>
-      <tr><td><strong>乐观情景</strong>（~20%自由流通）</td><td style="text-align:center;font-weight:600">港币434亿</td><td style="text-align:center;font-weight:600">港币439亿</td><td style="text-align:center;font-weight:700">~港币880亿</td></tr>
-    </table>
-    <div class="note" style="margin-top:12px">
-      <strong>基础情景</strong>：MiniMax流入相当于12.8倍日均成交额 | 智谱相当于10天日均成交额<br>
-      <strong>乐观情景</strong>：MiniMax流入相当于30天日均成交额 | 智谱相当于23.5天日均成交额<br>
-      <br>
-      原因是两只股票目前 <strong>无其他同类AI标的可替代</strong>，资金只能买它们。
+  <!-- 推荐2 -->
+  <div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-title">
+          北疆环线经典9日 · 1+1头等舱
+          <span class="badge badge-purple">舒适升级</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="tag tag-check">无自费</span>
+          <span class="tag tag-check">无购物</span>
+          <span class="tag tag-guarantee">成团保障</span>
+        </div>
+        <div class="route" style="margin-top:8px">
+          <span>🗺️ 喀纳斯 → 伊犁 → 赛湖 → 那拉提 → 独库公路</span>
+        </div>
+      </div>
     </div>
+    <div class="note">
+      ✅ 1+1头等舱大座椅，带娃坐着宽敞舒服<br>
+      ✅ 住景区内（赛湖/禾木），体验更好<br>
+      ✅ 9日正好匹配你的假期
+    </div>
+    <a class="btn-link" href="https://a.feizhu.com/4Rc4TM" target="_blank">飞猪查看详情 →</a>
+  </div>
+
+  <!-- 推荐3 -->
+  <div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-title">
+          全景伊犁9日独立座椅小团
+          <span class="badge badge-green">深度游</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="tag tag-check">无自费</span>
+          <span class="tag tag-check">无购物</span>
+          <span class="tag tag-guarantee">成团保障</span>
+        </div>
+        <div class="route" style="margin-top:8px">
+          <span>🗺️ 赛里木湖 → 夏塔 → 那拉提 → 喀拉峻 → 库尔德宁</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      ✅ 纯伊犁环线，不走喀纳斯（路程短，带娃更轻松）<br>
+      ✅ 深度慢节奏，不赶路<br>
+      ✅ 6月中伊犁草原野花盛放、薰衣草花期
+    </div>
+    <a class="btn-link" href="https://a.feizhu.com/3wHmkO" target="_blank">飞猪查看详情 →</a>
+  </div>
+
+  <!-- 推荐4 -->
+  <div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-title">
+          北疆大环线2-6人小团 · 10天
+          <span class="badge badge-orange">加1天更全</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="tag tag-check">无自费</span>
+          <span class="tag tag-check">无购物</span>
+          <span class="tag tag-guarantee">成团保障</span>
+        </div>
+        <div class="route" style="margin-top:8px">
+          <span>🗺️ 伊犁 → 那拉提 → 赛湖 → 喀纳斯 → 禾木</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      ✅ 覆盖最全，北疆全扫<br>
+      ⚠️ 10天需要提前一天到或晚一天回，21号走的话13号得早到
+    </div>
+    <a class="btn-link" href="https://a.feizhu.com/2xUHMx" target="_blank">飞猪查看详情 →</a>
+  </div>
+
+  <!-- Tips -->
+  <div class="tip-box">
+    <strong>💡 小团注意事项</strong><br>
+    · 以上产品均为<strong>纯玩</strong>标签，不含购物店<br>
+    · 带6岁娃建议确认是否含儿童早餐/加床服务<br>
+    · 6月是旺季，提前1个月订价格更优<br>
+    · 部分小团含无人机航拍，给娃拍大片很适合
   </div>
 </div>
 
-<div id="tab-risk" class="section">
-  <div class="info-row">
-    <div class="info-item"><div class="num">5.44%</div><div class="lbl">MiniMax流通盘</div></div>
-    <div class="info-item"><div class="num">2.67%</div><div class="lbl">智谱流通盘</div></div>
-    <div class="info-item"><div class="num">7月7-8日</div><div class="lbl">⚠️ 解禁节点</div></div>
+<!-- ============ TAB 3: 行程总览 ============ -->
+<div id="tab-itinerary" class="section">
+
+  <div style="font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px">
+    <span>🗺️ 北疆伊犁环线 9天8晚 · 推荐路线</span>
+    <span class="tag tag-check">6月13日-21日</span>
   </div>
 
-  <div class="card risk">
-    <div class="card-title">🚨 解禁时间表（核心风险）</div>
-    <table>
-      <tr><th>节点</th><th>智谱</th><th>MiniMax</th></tr>
-      <tr><td><strong>2026年7月7-8日</strong><br><span style="font-size:12px;color:#888">上市约6个月</span></td>
-        <td>基石投资者<br><strong style="color:#e53935">5.83%</strong> 解禁</td>
-        <td>老股东 <strong style="color:#e53935">44.29%</strong><br>+ 基石 <strong style="color:#e53935">5.34%</strong><br>= <strong style="color:#e53935;font-size:18px">~50% 解禁</strong></td></tr>
-      <tr><td><strong>2027年1月</strong><br><span style="font-size:12px;color:#888">上市约12个月</span></td>
-        <td>非控股股东<br><strong style="color:#e53935">60%+</strong> 解禁</td>
-        <td>—</td></tr>
-    </table>
-    <div class="tip-box" style="margin-top:12px">
-      <strong>💥 MiniMax 7月解禁特别恐怖</strong><br>
-      现在股价建立在 <strong>5.44%</strong> 的流通盘上，50%解禁意味着流通量 <strong>扩大近10倍</strong>。<br>
-      「稀缺性溢价」将不复存在。但南向资金如果在6-7月持续涌入，可能对冲一部分解禁压力。
-    </div>
+  <div class="timeline">
+    <div class="timeline-item"><span class="t-date">D1 · 6/13 周六</span><br><span class="t-desc">✈️ 深圳→乌鲁木齐（飞5-6h，住乌市）</span></div>
+    <div class="timeline-item"><span class="t-date">D2 · 6/14 周日</span><br><span class="t-desc">🚐 乌市→S101国防公路→安集海大峡谷→奎屯</span></div>
+    <div class="timeline-item"><span class="t-date">D3 · 6/15 周一</span><br><span class="t-desc">🚐 奎屯→赛里木湖环湖→果子沟大桥→伊宁</span></div>
+    <div class="timeline-item"><span class="t-date">D4 · 6/16 周二</span><br><span class="t-desc">🚐 伊宁→霍城薰衣草🌿→喀拉峻草原→特克斯</span></div>
+    <div class="timeline-item"><span class="t-date">D5 · 6/17 周三</span><br><span class="t-desc">🚐 特克斯→夏塔古道→昭苏（油菜花/天马）</span></div>
+    <div class="timeline-item"><span class="t-date">D6 · 6/18 周四</span><br><span class="t-desc">🚐 昭苏→那拉提草原（空中草原+河谷草原）</span></div>
+    <div class="timeline-item"><span class="t-date">D7 · 6/19 周五 🎉端午</span><br><span class="t-desc">🚐 那拉提→独库公路北段→奎屯/乌市</span></div>
+    <div class="timeline-item"><span class="t-date">D8 · 6/20 周六</span><br><span class="t-desc">🚐 乌市→天山天池（或二道桥大巴扎）</span></div>
+    <div class="timeline-item"><span class="t-date">D9 · 6/21 周日</span><br><span class="t-desc">✈️ 乌鲁木齐→深圳（返程）</span></div>
   </div>
 
-  <div class="card">
-    <div class="card-title">📉 基本面：烧钱换增长</div>
-    <table>
-      <tr><th>指标</th><th style="text-align:center">智谱</th><th style="text-align:center">MiniMax</th></tr>
-      <tr><td>营收</td><td style="text-align:center">2025H1 ¥1.91亿</td><td style="text-align:center">2025前9月 $5344万</td></tr>
-      <tr><td>研发投入</td><td style="text-align:center">¥15.94亿</td><td style="text-align:center">$1.8亿</td></tr>
-      <tr><td>收入/研发比</td><td style="text-align:center"><strong style="color:#e53935">1:8</strong></td><td style="text-align:center"><strong style="color:#e53935">1:3.37</strong></td></tr>
-    </table>
-    <div class="note" style="margin-top:12px">
-      每赚1块钱要花8块钱搞研发，短期盈利无望。<br>
-      解禁后定价逻辑将从「稀缺性溢价」切换回基本面：营收增速、亏损收窄节奏、商业化落地将成为硬指标。
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🗓️ 关键时间线一览</div>
-    <table>
-      <tr><th style="text-align:center">时间</th><th>事件</th><th>方向</th></tr>
-      <tr><td style="text-align:center;font-weight:600">5月下旬</td><td>恒生指数公司公布季检结果</td><td><span class="tag tag-blue">消息面</span></td></tr>
-      <tr><td style="text-align:center;font-weight:600">6月8日</td><td>正式纳入恒科 + 智谱港股通开通</td><td><span class="tag tag-green">🟢 利好</span></td></tr>
-      <tr><td style="text-align:center;font-weight:600">6月中-7月初</td><td>被动+南向资金集中买入期</td><td><span class="tag tag-green">🟢 利好</span></td></tr>
-      <tr><td style="text-align:center;font-weight:600">7月7-8日</td><td><strong>⚠️ MiniMax ~50%解禁 ｜ 智谱 5.83%解禁</strong></td><td><span class="tag tag-red">🔴 风险</span></td></tr>
-      <tr><td style="text-align:center;font-weight:600">8月6日</td><td>MiniMax 港股通开通（最早）</td><td><span class="tag tag-green">🟢 利好</span></td></tr>
-      <tr><td style="text-align:center;font-weight:600">2027年1月</td><td>智谱 60%+ 解禁</td><td><span class="tag tag-orange">🟡 中期风险</span></td></tr>
-    </table>
-  </div>
-</div>
-
-<div id="tab-impact" class="section">
-  <div class="card buy">
-    <div class="card-title">🔗 对你持仓的影响</div>
-    <div class="note">
-      <strong>你持有的广发恒生科技ETF联接C（012805）</strong> 会同步调整持仓：<br>
-      ✅ 被动买入 MiniMax + 智谱<br>
-      ❌ 卖出金蝶国际 + 金山软件
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📊 分阶段影响</div>
-    <table>
-      <tr><th style="text-align:center">阶段</th><th>影响</th><th>操作建议</th></tr>
-      <tr><td style="text-align:center"><strong>6月</strong></td><td>被动资金+南向资金流入，ETF净值有望获得额外正贡献</td><td><span class="tag tag-green">持有</span></td></tr>
-      <tr><td style="text-align:center"><strong>6月中-7月初</strong></td><td>资金密集买入期，MiniMax和智谱可能带动恒科上涨</td><td><span class="tag tag-green">持有/观望</span></td></tr>
-      <tr><td style="text-align:center"><strong>7月解禁</strong></td><td>MiniMax波动风险大（50%解禁），智谱影响轻微（5.83%）</td><td><span class="tag tag-orange">关注</span></td></tr>
-      <tr><td style="text-align:center"><strong>8月后</strong></td><td>MiniMax港股通开通，南向资金接力，可能对冲解禁压力</td><td><span class="tag tag-blue">观察南向数据</span></td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📌 关键判断</div>
-    <div class="note">
-      <strong>利好：</strong><br>
-      · 恒科指数变得更「科技」了，长期对指数基金持有者是好事<br>
-      · 5-7%权重不算高，整体波动可控<br>
-      · AI稀缺标的吸引大量南向资金<br><br>
-      <strong>风险：</strong><br>
-      · MiniMax 7月解禁压力远大于智谱（50% vs 5.83%）<br>
-      · 两只票都严重亏损，基本面支撑不足<br>
-      · 解禁后流通量扩大数倍，稀缺溢价消失
-    </div>
-  </div>
-
-  <div class="summary-box">
-    <h3>🦐 虾飞飞总结</h3>
+  <div class="summary-box" style="margin-top:16px;">
+    <h3>🌟 6月北疆的亮点</h3>
     <ul>
-      <li><strong>6月</strong> — 短期利好恒科ETF，持有不动即可</li>
-      <li><strong>7月</strong> — 关注MiniMax解禁表现，但ETF权重仅5-7%，影响有限</li>
-      <li><strong>长期</strong> — AI公司进入恒科，指数科技属性增强，对基金持有者是好事</li>
-      <li><strong>操作</strong> — ETF用户不需特别操作，指数会自动调仓</li>
+      <li><strong>赛里木湖</strong> — 大西洋最后一滴眼泪，6月湖水湛蓝，湖边野花盛开</li>
+      <li><strong>霍城薰衣草</strong> — 6月中旬盛花期，堪比普罗旺斯</li>
+      <li><strong>喀拉峻/那拉提</strong> — 空中草原绿草如茵，6月是最佳观赏期</li>
+      <li><strong>独库公路</strong> — 6月初开放概率大，一日四季的景观大道</li>
+      <li><strong>夏塔古道</strong> — 雪山+草原+森林，娃会喜欢的小动物很多</li>
     </ul>
   </div>
 </div>
 
-<div style="text-align:center;padding:20px;color:#999;font-size:12px">
-  数据来源：摩根士丹利报告、LiveReport大数据、追风交易台 · 以上分析不构成投资建议，投资有风险
+<!-- ============ TAB 4: 预算汇总 ============ -->
+<div id="tab-summary" class="section">
+
+  <div style="font-size:16px;font-weight:700;margin-bottom:16px;">💰 预算汇总（一家三口）</div>
+
+  <table>
+    <tr><th>项目</th><th style="text-align:right">估算费用</th></tr>
+    <tr><td>✈️ 去程机票（3人，重庆中转方案）</td><td style="text-align:right" class="table-price">≈¥5,070</td></tr>
+    <tr><td>✈️ 返程机票（3人，海航直达）</td><td style="text-align:right" class="table-price">≈¥9,000</td></tr>
+    <tr><td>🚐 精致小团（9天8晚，人均约¥5,699）</td><td style="text-align:right" class="table-price">≈¥17,097</td></tr>
+    <tr><td>🍜 餐饮及零花（9天，3人）</td><td style="text-align:right" class="table-price">≈¥3,000</td></tr>
+    <tr><td>🎫 自费项目/纪念品</td><td style="text-align:right" class="table-price">≈¥1,000</td></tr>
+    <tr style="background:#f8f9ff;font-weight:700"><td><strong>💰 总计（中等方案）</strong></td><td style="text-align:right;color:#667eea;font-size:18px"><strong>≈¥35,000</strong></td></tr>
+  </table>
+
+  <div class="summary-box" style="margin-top:16px;">
+    <h3>🦐 虾飞飞最终推荐</h3>
+    <ul>
+      <li><strong>交通</strong>：去程选重庆中转（¥1,690/人），返程选海航直达（¥3,000/人），全家≈¥14,070</li>
+      <li><strong  <li><strong>小团</strong>：推荐李佳琦北疆环线9天8晚纯玩小团，人均≈¥5,699</li>
+      <li><strong>合计中档方案</strong>：交通¥14,070 + 小团¥17,097 + 其他¥4,000 ≈ <strong>¥35,000</strong> 一家三口搞定一整个新疆假期</li>
+      <li><strong>省钱方案</strong>：去程重庆中转+返程银川中转，交通仅¥9,420</li>
+    </ul>
+  </div>
+
+  <div class=tip-box>
+    <strong>⏰ 重要提醒</strong><br>
+    · 现在距6月13日还有<strong>约23天</strong>，机票和小团都需要尽快预订，越近越贵<br>
+    · 儿童票：高铁半价，飞机约成人价的50-75%<br>
+    · 精致小团建议咨询是否接受6岁儿童参团（大部分可以，但最好确认）<br>
+    · 新疆6月初入夏，白天25-30°C，早晚温差大，带件外套
+  </div>
 </div>
 
 </div>
 
+<!-- Tabs script -->
 <script>
-function switchTab(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
+function switchTab(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
 </script>
 </body>
 </html>
