@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>恒科纳入 MiniMax &amp; 智谱 · 深度分析</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f5f7fa;color:#1a1a2e;padding:16px}
+.container{max-width:860px;margin:0 auto}
+
+.header{
+  background:linear-gradient(135deg,#1a1a4e 0%,#2d1b69 50%,#764ba2 100%);
+  border-radius:20px;padding:32px 28px;color:#fff;margin-bottom:20px;
+  position:relative;overflow:hidden
+}
+.header::after{
+  content:'';position:absolute;top:-60%;right:-30%;width:300px;height:300px;
+  background:radial-gradient(circle,rgba(102,126,234,0.15) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none
+}
+.header h1{font-size:24px;font-weight:700;position:relative;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.header p{font-size:14px;color:rgba(255,255,255,0.75);margin-top:8px;position:relative;line-height:1.5}
+.header .meta{font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;position:relative}
+
+.tab-bar{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;padding:10px 20px;border-radius:24px;
+  border:1px solid #dde0e8;background:#fff;color:#666;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .3s ease;-webkit-tap-highlight-color:transparent;user-select:none
+}
+.tab-btn.active{
+  background:linear-gradient(135deg,#667eea,#764ba2);border-color:transparent;color:#fff;
+  box-shadow:0 4px 20px rgba(102,126,234,0.3)
+}
+
+.section{display:none;animation:fadeUp .4s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.card{
+  background:#fff;border:1px solid #e8ecf1;border-radius:14px;padding:20px;
+  margin-bottom:14px;transition:all .2s
+}
+.card.highlight{border-color:#667eea;background:linear-gradient(135deg,#f8f9ff 0%,#f0f2ff 100%)}
+.card.risk{border-color:#ff6b6b;background:linear-gradient(135deg,#fff5f5 0%,#fff0f0 100%)}
+.card.buy{border-color:#51cf66;background:linear-gradient(135deg,#f0fff4 0%,#ebfbee 100%)}
+
+.card-title{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-sub{font-size:13px;color:#888;margin-bottom:6px}
+
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.tag-green{background:#e8f5e9;color:#2e7d32}
+.tag-red{background:#ffebee;color:#c62828}
+.tag-blue{background:#e3f2fd;color:#1565c0}
+.tag-orange{background:#fff3e0;color:#e65100}
+.tag-purple{background:#f3e5f5;color:#7b1fa2}
+
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+th{background:#f8f9fa;text-align:left;padding:10px 12px;font-weight:600;color:#666;font-size:13px}
+td{padding:10px 12px;border-top:1px solid #eef1f5}
+tr:first-child td{border-top:none}
+.table-price{font-weight:600;color:#e53935;white-space:nowrap}
+
+.summary-box{
+  background:#f8f9ff;border-left:4px solid #667eea;border-radius:10px;padding:18px;margin-top:16px
+}
+.summary-box h3{font-size:15px;margin-bottom:10px;color:#1a1a2e}
+.summary-box ul{list-style:none;padding:0}
+.summary-box li{padding:5px 0;font-size:14px;display:flex;align-items:baseline;gap:8px;color:#444}
+.summary-box li::before{content:"✓";color:#667eea;font-weight:700}
+
+.note{font-size:13px;color:#888;padding:10px 14px;background:#fafafa;border-radius:8px;margin-top:8px;line-height:1.5}
+.note strong{color:#555}
+
+.tip-box{
+  background:#fff8e1;border-left:4px solid #ffa000;border-radius:8px;padding:14px;margin:10px 0;font-size:13px;color:#6d5300;line-height:1.6
+}
+
+.info-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.info-item{
+  flex:1;min-width:120px;background:#f8f9ff;border-radius:10px;padding:14px;text-align:center;
+  border:1px solid #e8ecf1
+}
+.info-item .num{font-size:22px;font-weight:700;color:#667eea}
+.info-item .lbl{font-size:12px;color:#888;margin-top:4px}
+.info-item .sub{font-size:11px;color:#aaa;margin-top:2px}
+
+.divider{height:1px;background:#eef1f5;margin:20px 0}
+
+.footnote{text-align:center;padding:20px;color:#999;font-size:12px}
+
+@media (max-width:600px){
+  body{padding:12px}
+  .header{padding:20px}
+  .header h1{font-size:20px}
+  .tab-btn{padding:8px 14px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🏦 恒生科技指数 · 纳入分析</h1>
+  <p>MiniMax（00100.HK）&amp; 智谱（Knowledge Atlas）将于 <strong>2026年6月8日</strong> 正式纳入恒生科技指数，替换金蝶国际和金山软件</p>
+  <div class="meta">数据来源：摩根士丹利、LiveReport、追风交易台 · 2026-05-23</div>
+</div>
+
+<div class="tab-bar">
+  <div class="tab-btn active" onclick="switchTab('tab-overview')">📋 事件概览</div>
+  <div class="tab-btn" onclick="switchTab('tab-flow')">💰 资金测算</div>
+  <div class="tab-btn" onclick="switchTab('tab-risk')">⚠️ 解禁风险</div>
+  <div class="tab-btn" onclick="switchTab('tab-impact')">📊 持仓影响</div>
+</div>
+
+<div id="tab-overview" class="section active">
+  <div class="info-row">
+    <div class="info-item"><div class="num">6月8日</div><div class="lbl">恒科生效日</div></div>
+    <div class="info-item"><div class="num">5-7%</div><div class="lbl">合计权重</div></div>
+    <div class="info-item"><div class="num">$250亿</div><div class="lbl">跟踪ETF规模</div></div>
+    <div class="info-item"><div class="num">2只</div><div class="lbl">调出股票</div></div>
+  </div>
+
+  <div class="card highlight">
+    <div class="card-title">📋 纳入方案</div>
+    <table>
+      <tr><th>操作</th><th>公司</th><th>说明</th></tr>
+      <tr><td><span class="tag tag-green">✅ 纳入</span></td><td><strong>MiniMax-W</strong>（00100.HK）</td><td>全球首家全模态AGI港股上市公司</td></tr>
+      <tr><td><span class="tag tag-green">✅ 纳入</span></td><td><strong>智谱</strong>（Knowledge Atlas）</td><td>中国大模型头部公司</td></tr>
+      <tr><td><span class="tag tag-red">❌ 调出</span></td><td>金蝶国际</td><td>权重最低被替换</td></tr>
+      <tr><td><span class="tag tag-red">❌ 调出</span></td><td>金山软件</td><td>权重最低被替换</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 为什么重要</div>
+    <div class="note">
+      <strong>恒生科技指数今年表现：</strong>年初至今 -12.6%。<br>
+      但如果智谱和MiniMax上市当天就纳入（替换金蝶/金山），指数跌幅将从 <strong>-12.6% 收窄至 -7.6%</strong>，提升约 <strong>5个百分点</strong>。<br><br>
+      <strong>指数结构变化：</strong>目前恒科 >50% 权重是电商（25.4%）+ 汽车（25.1%），实际更像"消费指数"。纳入AI公司后，科技属性更纯粹。
+    </div>
+    <table style="margin-top:12px">
+      <tr><th>板块</th><th>当前权重</th><th>代表性公司</th></tr>
+      <tr><td>🛒 电商</td><td>25.4%</td><td>阿里、美团、京东、携程</td></tr>
+      <tr><td>🚗 汽车/新能源</td><td>25.1%</td><td>比亚迪、小米、蔚来、小鹏</td></tr>
+      <tr><td>🤖 AI（即将纳入）</td><td>5-7%</td><td>MiniMax、智谱</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 港股通时间线</div>
+    <table>
+      <tr><th></th><th style="text-align:center">智谱</th><th style="text-align:center">MiniMax</th></tr>
+      <tr><td>纳入恒科</td><td style="text-align:center"><span class="tag tag-green">6月8日</span></td><td style="text-align:center"><span class="tag tag-green">6月8日</span></td></tr>
+      <tr><td>港股通开通</td><td style="text-align:center"><span class="tag tag-green">6月8日同步</span></td><td style="text-align:center"><span class="tag tag-orange">最早8月6日</span></td></tr>
+      <tr><td>延迟原因</td><td style="text-align:center">—</td><td>WVR同股不同权架构需额外条件</td></tr>
+    </table>
+  </div>
+</div>
+
+<div id="tab-flow" class="section">
+  <div class="info-row">
+    <div class="info-item"><div class="num">$12.5-17.5亿</div><div class="lbl">被动资金流入</div><div class="sub">ETF跟踪资金</div></div>
+    <div class="info-item"><div class="num">~港币370亿</div><div class="lbl">南向基础情景</div><div class="sub">纳入后180天</div></div>
+    <div class="info-item"><div class="num">~港币880亿</div><div class="lbl">南向乐观情景</div><div class="sub">小流通盘新股</div></div>
+  </div>
+
+  <div class="card buy">
+    <div class="card-title">💰 被动资金（确定性最高）</div>
+    <div class="note">
+      追踪恒科指数的ETF规模约 <strong>250亿美元</strong>。<br>
+      按5-7%权重：<strong>约$12.5亿-17.5亿美元</strong>被动买入。<br>
+      这是"必须买"的，不是"可能买"。
+    </div>
+  </div>
+
+  <div class="card buy">
+    <div class="card-title">📈 南向资金测算（大摩预测）</div>
+    <table>
+      <tr><th>情景</th><th style="text-align:center">MiniMax</th><th style="text-align:center">智谱</th><th style="text-align:center">合计</th></tr>
+      <tr><td><strong>基础情景</strong>（8-9%自由流通）</td><td style="text-align:center;font-weight:600">港币184亿</td><td style="text-align:center;font-weight:600">港币186亿</td><td style="text-align:center;font-weight:700">~港币370亿</td></tr>
+      <tr><td><strong>乐观情景</strong>（~20%自由流通）</td><td style="text-align:center;font-weight:600">港币434亿</td><td style="text-align:center;font-weight:600">港币439亿</td><td style="text-align:center;font-weight:700">~港币880亿</td></tr>
+    </table>
+    <div class="note" style="margin-top:12px">
+      <strong>基础情景</strong>：MiniMax流入相当于12.8倍日均成交额 | 智谱相当于10天日均成交额<br>
+      <strong>乐观情景</strong>：MiniMax流入相当于30天日均成交额 | 智谱相当于23.5天日均成交额<br>
+      <br>
+      原因是两只股票目前 <strong>无其他同类AI标的可替代</strong>，资金只能买它们。
+    </div>
+  </div>
+</div>
+
+<div id="tab-risk" class="section">
+  <div class="info-row">
+    <div class="info-item"><div class="num">5.44%</div><div class="lbl">MiniMax流通盘</div></div>
+    <div class="info-item"><div class="num">2.67%</div><div class="lbl">智谱流通盘</div></div>
+    <div class="info-item"><div class="num">7月7-8日</div><div class="lbl">⚠️ 解禁节点</div></div>
+  </div>
+
+  <div class="card risk">
+    <div class="card-title">🚨 解禁时间表（核心风险）</div>
+    <table>
+      <tr><th>节点</th><th>智谱</th><th>MiniMax</th></tr>
+      <tr><td><strong>2026年7月7-8日</strong><br><span style="font-size:12px;color:#888">上市约6个月</span></td>
+        <td>基石投资者<br><strong style="color:#e53935">5.83%</strong> 解禁</td>
+        <td>老股东 <strong style="color:#e53935">44.29%</strong><br>+ 基石 <strong style="color:#e53935">5.34%</strong><br>= <strong style="color:#e53935;font-size:18px">~50% 解禁</strong></td></tr>
+      <tr><td><strong>2027年1月</strong><br><span style="font-size:12px;color:#888">上市约12个月</span></td>
+        <td>非控股股东<br><strong style="color:#e53935">60%+</strong> 解禁</td>
+        <td>—</td></tr>
+    </table>
+    <div class="tip-box" style="margin-top:12px">
+      <strong>💥 MiniMax 7月解禁特别恐怖</strong><br>
+      现在股价建立在 <strong>5.44%</strong> 的流通盘上，50%解禁意味着流通量 <strong>扩大近10倍</strong>。<br>
+      「稀缺性溢价」将不复存在。但南向资金如果在6-7月持续涌入，可能对冲一部分解禁压力。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📉 基本面：烧钱换增长</div>
+    <table>
+      <tr><th>指标</th><th style="text-align:center">智谱</th><th style="text-align:center">MiniMax</th></tr>
+      <tr><td>营收</td><td style="text-align:center">2025H1 ¥1.91亿</td><td style="text-align:center">2025前9月 $5344万</td></tr>
+      <tr><td>研发投入</td><td style="text-align:center">¥15.94亿</td><td style="text-align:center">$1.8亿</td></tr>
+      <tr><td>收入/研发比</td><td style="text-align:center"><strong style="color:#e53935">1:8</strong></td><td style="text-align:center"><strong style="color:#e53935">1:3.37</strong></td></tr>
+    </table>
+    <div class="note" style="margin-top:12px">
+      每赚1块钱要花8块钱搞研发，短期盈利无望。<br>
+      解禁后定价逻辑将从「稀缺性溢价」切换回基本面：营收增速、亏损收窄节奏、商业化落地将成为硬指标。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗓️ 关键时间线一览</div>
+    <table>
+      <tr><th style="text-align:center">时间</th><th>事件</th><th>方向</th></tr>
+      <tr><td style="text-align:center;font-weight:600">5月下旬</td><td>恒生指数公司公布季检结果</td><td><span class="tag tag-blue">消息面</span></td></tr>
+      <tr><td style="text-align:center;font-weight:600">6月8日</td><td>正式纳入恒科 + 智谱港股通开通</td><td><span class="tag tag-green">🟢 利好</span></td></tr>
+      <tr><td style="text-align:center;font-weight:600">6月中-7月初</td><td>被动+南向资金集中买入期</td><td><span class="tag tag-green">🟢 利好</span></td></tr>
+      <tr><td style="text-align:center;font-weight:600">7月7-8日</td><td><strong>⚠️ MiniMax ~50%解禁 ｜ 智谱 5.83%解禁</strong></td><td><span class="tag tag-red">🔴 风险</span></td></tr>
+      <tr><td style="text-align:center;font-weight:600">8月6日</td><td>MiniMax 港股通开通（最早）</td><td><span class="tag tag-green">🟢 利好</span></td></tr>
+      <tr><td style="text-align:center;font-weight:600">2027年1月</td><td>智谱 60%+ 解禁</td><td><span class="tag tag-orange">🟡 中期风险</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<div id="tab-impact" class="section">
+  <div class="card buy">
+    <div class="card-title">🔗 对你持仓的影响</div>
+    <div class="note">
+      <strong>你持有的广发恒生科技ETF联接C（012805）</strong> 会同步调整持仓：<br>
+      ✅ 被动买入 MiniMax + 智谱<br>
+      ❌ 卖出金蝶国际 + 金山软件
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 分阶段影响</div>
+    <table>
+      <tr><th style="text-align:center">阶段</th><th>影响</th><th>操作建议</th></tr>
+      <tr><td style="text-align:center"><strong>6月</strong></td><td>被动资金+南向资金流入，ETF净值有望获得额外正贡献</td><td><span class="tag tag-green">持有</span></td></tr>
+      <tr><td style="text-align:center"><strong>6月中-7月初</strong></td><td>资金密集买入期，MiniMax和智谱可能带动恒科上涨</td><td><span class="tag tag-green">持有/观望</span></td></tr>
+      <tr><td style="text-align:center"><strong>7月解禁</strong></td><td>MiniMax波动风险大（50%解禁），智谱影响轻微（5.83%）</td><td><span class="tag tag-orange">关注</span></td></tr>
+      <tr><td style="text-align:center"><strong>8月后</strong></td><td>MiniMax港股通开通，南向资金接力，可能对冲解禁压力</td><td><span class="tag tag-blue">观察南向数据</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 关键判断</div>
+    <div class="note">
+      <strong>利好：</strong><br>
+      · 恒科指数变得更「科技」了，长期对指数基金持有者是好事<br>
+      · 5-7%权重不算高，整体波动可控<br>
+      · AI稀缺标的吸引大量南向资金<br><br>
+      <strong>风险：</strong><br>
+      · MiniMax 7月解禁压力远大于智谱（50% vs 5.83%）<br>
+      · 两只票都严重亏损，基本面支撑不足<br>
+      · 解禁后流通量扩大数倍，稀缺溢价消失
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>🦐 虾飞飞总结</h3>
+    <ul>
+      <li><strong>6月</strong> — 短期利好恒科ETF，持有不动即可</li>
+      <li><strong>7月</strong> — 关注MiniMax解禁表现，但ETF权重仅5-7%，影响有限</li>
+      <li><strong>长期</strong> — AI公司进入恒科，指数科技属性增强，对基金持有者是好事</li>
+      <li><strong>操作</strong> — ETF用户不需特别操作，指数会自动调仓</li>
+    </ul>
+  </div>
+</div>
+
+<div style="text-align:center;padding:20px;color:#999;font-size:12px">
+  数据来源：摩根士丹利报告、LiveReport大数据、追风交易台 · 以上分析不构成投资建议，投资有风险
+</div>
+
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
